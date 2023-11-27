@@ -1,24 +1,31 @@
 package com.example.applicationb;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 @Repository
 public class HeroRepoImpl implements Repo {
+    private final RestTemplate restTemplate;
 
-    public List<Hero> heros = new ArrayList<>();
-
+    public HeroRepoImpl() {
+        this.restTemplate = new RestTemplate();
+    }
 
     @Override
-    public List<Hero> findAll() {
-        return null;
+    public ArrayList<Hero> findAll() {
+        ArrayList<Hero> result = restTemplate.getForObject("http://localhost:8081/personnages", ArrayList.class);
+        return result;
     }
 
     @Override
     public Hero findById(int id) {
+        for (Hero hero : heros) {
+            if (hero.getId() == id) {
+                return hero;
+            }
+        }
         return null;
     }
 

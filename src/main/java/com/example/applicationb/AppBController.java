@@ -5,13 +5,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class AppBController {
 
     private final RestTemplate restTemplate;
+    private final Repo repo;
 
-    public AppBController() {
+    public AppBController(Repo repo) {
         this.restTemplate = new RestTemplate();
+        this.repo = repo;
     }
 
     @GetMapping(value = "/random-name")
@@ -20,10 +25,11 @@ public class AppBController {
     }
 
     @GetMapping(value = "/random")
-    public list<Hero> getRandomPerso() {
+    public Hero getRandomHero() {
+        List<Hero> heros = repo.findAll();
         int randomId = (int) Math.floor(Math.random() * (2 - 1 + 1) + 1);
-         = restTemplate.getForObject(" http://localhost:8081/personnages/{" + randomId + "}", Hero.class);
-        return null;
+        Hero ramdomHero = heros.findById(randomId);
+        return ramdomHero;
     }
 
     @PostMapping(value = "/random")

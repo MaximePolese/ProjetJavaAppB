@@ -24,7 +24,7 @@ public class AppBController {
 
     @GetMapping(value = "/random-name")
     public String getRandomName() {
-        return restTemplate.getForEntity("https://random-word-api.herokuapp.com/word", Object.class).getBody().toString();
+        return restTemplate.getForEntity("https://random-word-api.herokuapp.com/word", Object.class).getBody().toString().replace("[", "").replace("]", "");
     }
 
     @GetMapping(value = "/random")
@@ -51,7 +51,7 @@ public class AppBController {
     public Hero createRandomHero() {
         String randomName = this.getRandomName();
         int id = this.getMaxId();
-        Hero newHero = new Hero(id, randomName, "Avengers", 50);
+        Hero newHero = new Hero(id, randomName, "Avengers", 99);
         System.out.println(newHero);
         return repo.save(newHero);
     }

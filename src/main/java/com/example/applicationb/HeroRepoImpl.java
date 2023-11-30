@@ -1,22 +1,21 @@
 package com.example.applicationb;
 
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class HeroRepoImpl implements Repo {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     public HeroRepoImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
+
     @Override
     public String getRandomName() {
-        String result = restTemplate.getForEntity("https://random-word-api.herokuapp.com/word", String.class).getBody();
-        return result.replace("[", "").replace("]", "");
+        RestTemplate rt = new RestTemplate();
+        return rt.getForEntity("https://random-word-api.herokuapp.com/word", Object.class).getBody().toString().replace("[", "").replace("]", "");
     }
 
     @Override

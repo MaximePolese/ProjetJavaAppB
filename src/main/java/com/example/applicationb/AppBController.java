@@ -45,7 +45,7 @@ public class AppBController {
 
     @PostMapping(value = "/random")
     public Hero createRandomHero() {
-        String randomName = repo.getRandomName();
+        String randomName = this.createName();
         int id = this.getMaxId();
         Hero newHero = new Hero(id, randomName, "Avengers", 99);
         System.out.println(newHero);

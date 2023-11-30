@@ -3,28 +3,24 @@ package com.example.applicationb;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 
 @RestController
 public class AppBController {
-
-    private final RestTemplate restTemplate;
-    private final Repo repo;
+    private Repo repo;
     private int maxId;
     private int lastLength;
 
     public AppBController(Repo repo) {
-        this.restTemplate = new RestTemplate();
         this.repo = repo;
         this.maxId = 0;
         this.lastLength = 0;
     }
 
     @GetMapping(value = "/random-name")
-    public String getRandomName() {
-        return restTemplate.getForEntity("https://random-word-api.herokuapp.com/word", Object.class).getBody().toString().replace("[", "").replace("]", "");
+    public String createName() {
+        return repo.getRandomName();
     }
 
     @GetMapping(value = "/random")
@@ -49,7 +45,7 @@ public class AppBController {
 
     @PostMapping(value = "/random")
     public Hero createRandomHero() {
-        String randomName = this.getRandomName();
+        String randomName = repo.getRandomName();
         int id = this.getMaxId();
         Hero newHero = new Hero(id, randomName, "Avengers", 99);
         System.out.println(newHero);

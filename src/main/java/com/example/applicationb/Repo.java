@@ -1,8 +1,8 @@
 package com.example.applicationb;
 
-import java.util.List;
-
 public interface Repo {
+    String getRandomName();
+
     Hero[] findAll();
 
     Hero save(Hero hero);
